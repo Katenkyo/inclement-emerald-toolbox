@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@common/*": ["common/*"]
+    },
+    "allowJs": true,
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "target": "es5",
+    "jsx": "react",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "declaration": false,
+    "removeComments": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    "outDir": "dist",
+    "lib": ["dom", "es2015", "es5", "es6", "es7"],
+    "baseUrl": "src",
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true
+  }
+}
