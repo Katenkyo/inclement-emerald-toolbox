@@ -1,13 +1,36 @@
-import React from "react";
+import { Grid } from "@mui/material";
+import React, { useState } from "react";
+import { useEffect } from "react";
+import TrainerCard from "./TrainerCard";
 import { useSelectedTrainerCategory } from "./TrainerSelect";
 
 const Home = () => {
-  const { title, trainers } = useSelectedTrainerCategory();
+  const { title, selected, trainers } = useSelectedTrainerCategory();
+  const [selectedTrainer, setSelectedTrainer] = useState<number | undefined>();
+  useEffect(() => {
+    setSelectedTrainer(undefined);
+  }, [selected]);
   return (
     <>
       {title}
       <br />
-      {trainers[0].trainer}
+      <Grid
+        display="grid"
+        gridTemplateColumns="repeat(4, 1fr)"
+        gap={2}
+        padding={2}
+      >
+        {trainers.map((trainer, index) => (
+          <TrainerCard
+            key={`${title}${index}`}
+            trainer={trainer}
+            selected={index === selectedTrainer}
+            onSelect={(selected) =>
+              setSelectedTrainer(index === selectedTrainer ? undefined : index)
+            }
+          />
+        ))}
+      </Grid>
     </>
   );
 };

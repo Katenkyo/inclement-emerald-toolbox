@@ -3,6 +3,7 @@ import { FormControl, Select, FormLabel } from "@mui/material";
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 import trainers from "@assets/trainers.json";
+export type TrainerEntity = typeof trainers[number][number];
 
 export const TRAINER_PARAM = "trainer_category";
 export const categories = [
