@@ -1,27 +1,15 @@
 import React from "react";
-import { test } from "@common/index";
-import {
-  ThemeProvider,
-  CssBaseline,
-  AppBar,
-  Typography,
-  Box,
-  Toolbar,
-} from "@mui/material";
-import dex from "@assets/dex.json";
+import { ThemeProvider, CssBaseline } from "@mui/material";
 import { dark } from "./theming";
+import AppRouter from "./Router";
+import AppBar from "./AppBar";
 
-const App = (props: {}) => {
+const App = () => {
   return (
     <>
-      <AppBar component="nav" position="sticky">
-        <Toolbar>
-          <Typography>Main menu</Typography>
-        </Toolbar>
-      </AppBar>
-      <Box component="main" sx={{ p: 2 }}>
-        {test()}
-      </Box>
+      <AppRouter>
+        <AppBar />
+      </AppRouter>
     </>
   );
 };

@@ -2,7 +2,8 @@
   "compilerOptions": {
     "paths": {
       "@common/*": ["common/*"],
-      "@assets/*": ["../assets/*"]
+      "@assets/*": ["../assets/*"],
+      "@pages/*": ["pages/*"]
     },
     "allowJs": true,
     "sourceMap": true,

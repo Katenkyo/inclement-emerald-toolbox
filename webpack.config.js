@@ -20,6 +20,7 @@ module.exports = {
     alias: {
       "@common": path.resolve(__dirname, "src", "common"),
       "@assets": path.resolve(__dirname, "assets"),
+      "@pages": path.resolve(__dirname, "src", "pages"),
     },
   },
   devServer: {
@@ -31,6 +32,7 @@ module.exports = {
     compress: true,
     port: 3000,
     hot: true,
+    historyApiFallback: { index: "/", disableDotRule: true },
     client: {
       overlay: true,
       progress: true,
