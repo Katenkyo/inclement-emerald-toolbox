@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import {
   Box,
+  Divider,
   Grid,
   Paper,
   PaperProps,
@@ -59,13 +60,21 @@ const TrainerCard = ({
         </Box>
         {expanded && entry && (
           <Box sx={{ display: "flex", flexDirection: "row" }}>
+            <PokemonMoves
+              names={pokemon?.moves ?? []}
+              ability={pokemon?.ability ?? ""}
+              item={pokemon?.item}
+            />
+            <Divider
+              orientation="vertical"
+              sx={{ mx: 0.5, height: "80%", alignSelf: "center" }}
+            />
             <PokemonStats
               pokemon={entry}
               nature={pokemon?.nature as NatureName}
               evs={statValueParser(pokemon?.evs)}
               ivs={statValueParser(pokemon?.ivs)}
             />
-            <PokemonMoves names={pokemon?.moves ?? []} />
           </Box>
         )}
       </Grid>

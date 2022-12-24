@@ -1,15 +1,76 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { DexContext } from "@common/DexContext";
-import { Box, Card, styled, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  styled,
+  Typography,
+  Tooltip,
+  List,
+  ListItem,
+} from "@mui/material";
 
 const StyledImg = styled("img")({
   height: "14px",
   width: "32px",
   alignSelf: "center",
-  px: "4px",
+  margin: "0px 4px",
 });
-const PokemonMoves = ({ names }: { names: string[] }) => {
-  const { moveDex } = useContext(DexContext);
+const StyledCard = styled(Card)({
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "nowrap",
+  padding: "0px 1ch",
+});
+const MoveCard = ({ move }: { move: MoveEntity }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  return (
+    <Tooltip
+      title={
+        <List>
+          <ListItem>Power: {move.power}</ListItem>
+          <ListItem>Category: {move.category}</ListItem>
+          <ListItem>Changes: {move.changes}</ListItem>
+        </List>
+      }
+    >
+      <StyledCard ref={ref}>
+        <StyledImg
+          src={`https://veekun.com/dex/media/types/en/${move.type.toLocaleLowerCase()}.png`}
+        />
+        <Typography variant="caption">{move.name}</Typography>
+      </StyledCard>
+    </Tooltip>
+  );
+};
+const AbilityCard = ({ ability }: { ability: AbilityEntity }) => {
+  return (
+    <Tooltip
+      title={
+        <List>
+          <ListItem>Effect: {ability.effect}</ListItem>
+          {ability.original && (
+            <ListItem>Original: {ability.original}</ListItem>
+          )}
+        </List>
+      }
+    >
+      <StyledCard>
+        <Typography variant="caption">{ability.name}</Typography>
+      </StyledCard>
+    </Tooltip>
+  );
+};
+const PokemonMoves = ({
+  names,
+  ability: abilityName,
+  item,
+}: {
+  names: string[];
+  ability: string;
+  item?: string;
+}) => {
+  const { moveDex, abilityDex } = useContext(DexContext);
   const moves = names
     .map((n) =>
       moveDex.find(
@@ -17,6 +78,7 @@ const PokemonMoves = ({ names }: { names: string[] }) => {
       )
     )
     .filter((m) => m !== undefined) as MoveEntity[];
+  const ability = abilityDex.find((a) => abilityName === a.name);
   return (
     <Box
       sx={{
@@ -27,21 +89,14 @@ const PokemonMoves = ({ names }: { names: string[] }) => {
         justifyContent: "space-around",
       }}
     >
+      {ability && <AbilityCard ability={ability} />}
+
+      <StyledCard>
+        <Typography variant="caption">{item ?? "No item"}</Typography>
+      </StyledCard>
+
       {moves.map((m) => (
-        <Card
-          key={m.name}
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            flexWrap: "nowrap",
-            px: "1ch",
-          }}
-        >
-          <StyledImg
-            src={`https://veekun.com/dex/media/types/en/${m.type.toLocaleLowerCase()}.png`}
-          />
-          <Typography variant="caption">{m.name}</Typography>
-        </Card>
+        <MoveCard key={m.name} move={m} />
       ))}
     </Box>
   );
