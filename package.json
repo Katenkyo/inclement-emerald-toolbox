@@ -7,7 +7,7 @@
     "docker:create": "docker run --name pokemonContainer -dp 3000:3000 -v $(pwd):/code node:18.7.0 sleep infinity",
     "docker:start": "docker start pokemonContainer",
     "docker:ssh": "docker exec -it pokemonContainer /bin/bash",
-    "start": "webpack webpack serve"
+    "start": "webpack serve"
   },
   "author": "Katenkyo",
   "license": "ISC",

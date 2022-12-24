@@ -1,6 +1,7 @@
 import Boy from "@mui/icons-material/Boy";
 import {
   Box,
+  Button,
   Grid,
   Paper,
   PaperProps,
@@ -10,6 +11,7 @@ import {
 import { Card } from "@mui/material";
 import React from "react";
 import { TrainerEntity } from "../TrainerSelect";
+import PokemonCard from "./PokemonCard";
 
 const StyledBoy = styled(Boy)({ "&:last-of-type": { marginLeft: "-12px" } });
 const ElevatedPaper = styled((props: PaperProps) => (
@@ -32,7 +34,9 @@ const TrainerCard = ({
         gridColumn: `span ${selected ? 4 : 1}`,
         display: "flex",
         flexDirection: "column",
+        padding: 1,
       }}
+      component={selected ? Paper : Button}
       onClick={() => onSelect(!selected)}
     >
       <Grid container direction="row" justifyContent="space-between">
@@ -57,24 +61,15 @@ const TrainerCard = ({
         component={ElevatedPaper}
         gap={1}
         flex={1}
-        margin={1}
         padding={1}
+        width="100%"
       >
         {team.map((pokemon, index) => (
-          <Paper key={pokemon?.name ?? index} elevation={3}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <img
-                src={`https://play.pokemonshowdown.com/sprites/gen5/${(
-                  pokemon?.name ?? ""
-                ).toLocaleLowerCase()}.png`}
-                width="96px"
-                height="96px"
-              />
-              <Typography variant="caption" textAlign="center">
-                {pokemon?.name ?? ""}
-              </Typography>
-            </Box>
-          </Paper>
+          <PokemonCard
+            key={pokemon?.name ?? index}
+            pokemon={pokemon}
+            expanded={selected}
+          />
         ))}
       </Grid>
     </Card>

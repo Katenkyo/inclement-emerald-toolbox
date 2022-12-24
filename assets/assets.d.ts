@@ -4,25 +4,22 @@ interface DexEntity {
   abilities: unknown;
   moves: unknown;
   moveCategories: unknown;
-  pokemons: unknown;
+  pokemons: DexEntry[];
   statIndexes: unknown;
   fieldList: Array<keyof Pokemon>;
   badges: string[];
   tms: string[];
   matchUps: MatchUpsEntity;
 }
+type DexEntry = {
+  [n: string]: any;
+};
 
-type Pokemon = {
+type Pokemon = PokemonStats & {
   id: number;
   name: string;
   obtainable: boolean;
   type1: PokemonType;
-  hp: number;
-  atk: number;
-  def: number;
-  spa: number;
-  spd: number;
-  spe: number;
   total: number;
   ability1: unknown;
   changes: string;
@@ -40,6 +37,15 @@ type Pokemon = {
   };
   progression: number;
   ability2: unknown;
+};
+
+type PokemonStats = {
+  hp: number;
+  atk: number;
+  def: number;
+  spa: number;
+  spd: number;
+  spe: number;
 };
 type MatchUpsEntity = {
   [k in PokemonType]: {
