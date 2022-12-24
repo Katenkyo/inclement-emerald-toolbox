@@ -1,3 +1,4 @@
+import { Box, Theme, Typography } from "@mui/material";
 import React from "react";
 
 export const statValueParser = (v?: string | number): PokemonStats => {
@@ -17,7 +18,9 @@ export const statValueParser = (v?: string | number): PokemonStats => {
       let replaced = v.replace("Speed", "spe");
       // Handles full spread description
       if (replaced.match(/([0-9]+\/?){6}/gm)) {
-        let [hp, atk, def, spa, spd, spe] = v.split("/").map(parseInt);
+        let [hp, atk, def, spa, spd, spe] = v
+          .split("/")
+          .map((v) => parseInt(v));
         stat = {
           hp,
           atk,
@@ -51,7 +54,73 @@ export const statValueParser = (v?: string | number): PokemonStats => {
   }
   return stat;
 };
-const StatGauge = () => {};
+const generateGradient = (base: number) => (theme: Theme) => {
+  const low = theme.palette.error.dark;
+  const mid = theme.palette.warning.dark;
+  const high = theme.palette.success.dark;
+  const background = theme.palette.background.default;
+  const selected = base <= 50 ? low : base < 100 ? mid : high;
+  // not a lot of base 255, or over 155, so let's just have a better representation of stats
+  const percent = Math.min(base / 1.55, 100);
+
+  return `linear-gradient(90deg, ${selected} 0%, ${selected} ${percent}%, ${background} ${percent}%, ${background} 100%)`;
+};
+const StatGauge = ({
+  base,
+  iv,
+  ev,
+  label,
+}: {
+  base: number;
+  iv: number;
+  ev: number;
+  label: keyof PokemonStats;
+}) => {
+  return (
+    <Box sx={{ display: "flex", flexDirection: "row" }}>
+      <Typography variant="caption" sx={{ width: "3ch" }}>
+        {label.padEnd(3, " ")}
+      </Typography>
+      <Box
+        sx={{
+          width: "100px",
+          borderRadius: "3em",
+          backgroundColor: "red",
+          background: generateGradient(base),
+          my: 0.5,
+          height: "16px",
+          padding: 0,
+        }}
+      >
+        <Typography
+          sx={{
+            width: "3ch",
+            textAlign: "end",
+            paddingLeft: 1,
+            fontSize: "12px",
+            top: "3px",
+            lineHeight: 1,
+            position: "relative",
+          }}
+        >
+          {base}
+        </Typography>
+      </Box>
+      <Typography variant="caption">{`${("" + iv).padStart(
+        2,
+        "0"
+      )}|${ev}`}</Typography>
+    </Box>
+  );
+};
+const statOrder: (keyof PokemonStats)[] = [
+  "hp",
+  "atk",
+  "def",
+  "spa",
+  "spd",
+  "spe",
+];
 const Stats = ({
   pokemon,
   ivs,
@@ -61,7 +130,22 @@ const Stats = ({
   ivs: PokemonStats;
   evs: PokemonStats;
 }) => {
-  return <></>;
+  const baseStats: PokemonStats = { ...pokemon };
+  return (
+    <>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        {statOrder.map((k) => (
+          <StatGauge
+            key={k}
+            label={k}
+            base={baseStats[k]}
+            iv={ivs[k]}
+            ev={evs[k]}
+          />
+        ))}
+      </Box>
+    </>
+  );
 };
 
 export default Stats;
