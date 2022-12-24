@@ -1,6 +1,39 @@
 import { Box, Theme, Typography } from "@mui/material";
 import React from "react";
 
+const NATURES: {
+  [id in NatureName]: null | {
+    plus: keyof PokemonStats;
+    minus: keyof PokemonStats;
+  };
+} = {
+  Adamant: { plus: "atk", minus: "spa" },
+  Bashful: null,
+  Bold: { plus: "def", minus: "atk" },
+  Brave: { plus: "atk", minus: "spe" },
+  Calm: { plus: "spd", minus: "atk" },
+  Careful: { plus: "spd", minus: "spa" },
+  Docile: null,
+  Gentle: { plus: "spd", minus: "def" },
+  Hardy: null,
+  Hasty: { plus: "spe", minus: "def" },
+  Impish: { plus: "def", minus: "spa" },
+  Jolly: { plus: "spe", minus: "spa" },
+  Lax: { plus: "def", minus: "spd" },
+  Lonely: { plus: "atk", minus: "def" },
+  Mild: { plus: "spa", minus: "def" },
+  Modest: { plus: "spa", minus: "atk" },
+  Naive: { plus: "spe", minus: "spd" },
+  Naughty: { plus: "atk", minus: "spd" },
+  Quiet: { plus: "spa", minus: "spe" },
+  Quirky: null,
+  Rash: { plus: "spa", minus: "spd" },
+  Relaxed: { plus: "def", minus: "spe" },
+  Sassy: { plus: "spd", minus: "spe" },
+  Serious: null,
+  Timid: { plus: "spe", minus: "atk" },
+};
+
 export const statValueParser = (v?: string | number): PokemonStats => {
   let stat: PokemonStats = {
     atk: 0,
@@ -65,17 +98,28 @@ const generateGradient = (base: number) => (theme: Theme) => {
 
   return `linear-gradient(90deg, ${selected} 0%, ${selected} ${percent}%, ${background} ${percent}%, ${background} 100%)`;
 };
+const natureColor =
+  (stat: keyof PokemonStats, nature: typeof NATURES[NatureName]) =>
+  (theme: Theme) => {
+    if (nature === null) return theme.palette.text.primary;
+    if (nature.minus === stat) return theme.palette.primary.main;
+    if (nature.plus === stat) return theme.palette.error.main;
+    return theme.palette.text.primary;
+  };
 const StatGauge = ({
   base,
   iv,
   ev,
   label,
+  nature,
 }: {
   base: number;
   iv: number;
   ev: number;
   label: keyof PokemonStats;
+  nature: NatureName;
 }) => {
+  const statChange = NATURES[nature];
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Typography variant="caption" sx={{ width: "3ch" }}>
@@ -106,10 +150,10 @@ const StatGauge = ({
           {base}
         </Typography>
       </Box>
-      <Typography variant="caption">{`${("" + iv).padStart(
-        2,
-        "0"
-      )}|${ev}`}</Typography>
+      <Typography
+        variant="caption"
+        sx={{ color: natureColor(label, statChange) }}
+      >{`${("" + iv).padStart(2, "0")}|${ev}`}</Typography>
     </Box>
   );
 };
@@ -125,12 +169,15 @@ const Stats = ({
   pokemon,
   ivs,
   evs,
+  nature,
 }: {
   pokemon: Pokemon;
   ivs: PokemonStats;
   evs: PokemonStats;
+  nature: NatureName;
 }) => {
   const baseStats: PokemonStats = { ...pokemon };
+  console.log(nature);
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -141,6 +188,7 @@ const Stats = ({
             base={baseStats[k]}
             iv={ivs[k]}
             ev={evs[k]}
+            nature={nature}
           />
         ))}
       </Box>

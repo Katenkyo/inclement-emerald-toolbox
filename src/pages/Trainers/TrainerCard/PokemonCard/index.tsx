@@ -60,6 +60,7 @@ const TrainerCard = ({
           <Box sx={{ display: "flex", flexDirection: "row" }}>
             <PokemonStats
               pokemon={entry}
+              nature={pokemon?.nature as NatureName}
               evs={statValueParser(pokemon?.evs)}
               ivs={statValueParser(pokemon?.ivs)}
             ></PokemonStats>
