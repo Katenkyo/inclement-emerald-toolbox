@@ -3,9 +3,13 @@ import dex from "@assets/dex.json";
 const pokedex = dex as DexEntity;
 type DexContextType = {
   pokedex: Pokemon[];
+  moveDex: MoveEntity[];
 };
 
-export const DexContext = createContext<DexContextType>({ pokedex: [] });
+export const DexContext = createContext<DexContextType>({
+  pokedex: [],
+  moveDex: [],
+});
 const getPokemonFromDexEntryBuilder =
   (fieldList: DexEntity["fieldList"]) =>
   (entry: DexEntry): Pokemon => {
@@ -22,7 +26,7 @@ const pokemons = buildPokemons();
 
 const DexContextProvider = (props: PropsWithChildren<{}>) => {
   return (
-    <DexContext.Provider value={{ pokedex: pokemons }}>
+    <DexContext.Provider value={{ pokedex: pokemons, moveDex: pokedex.moves }}>
       {props.children}
     </DexContext.Provider>
   );

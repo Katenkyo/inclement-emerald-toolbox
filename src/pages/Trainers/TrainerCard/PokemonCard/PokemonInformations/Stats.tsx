@@ -177,7 +177,6 @@ const Stats = ({
   nature: NatureName;
 }) => {
   const baseStats: PokemonStats = { ...pokemon };
-  console.log(nature);
   return (
     <>
       <Box sx={{ display: "flex", flexDirection: "column" }}>

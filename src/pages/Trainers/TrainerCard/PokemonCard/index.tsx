@@ -10,6 +10,7 @@ import {
 import { TrainerEntity } from "../../TrainerSelect";
 import { DexContext } from "@common/DexContext";
 import PokemonStats, { statValueParser } from "./PokemonInformations/Stats";
+import PokemonMoves from "./PokemonInformations/Moves";
 
 const ElevatedPaper = styled((props: PaperProps) => (
   <Paper elevation={3} {...props} />
@@ -63,7 +64,8 @@ const TrainerCard = ({
               nature={pokemon?.nature as NatureName}
               evs={statValueParser(pokemon?.evs)}
               ivs={statValueParser(pokemon?.ivs)}
-            ></PokemonStats>
+            />
+            <PokemonMoves names={pokemon?.moves ?? []} />
           </Box>
         )}
       </Grid>

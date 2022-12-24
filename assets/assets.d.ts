@@ -2,7 +2,7 @@ declare module "*.json";
 
 interface DexEntity {
   abilities: unknown;
-  moves: unknown;
+  moves: MoveEntity[];
   moveCategories: unknown;
   pokemons: DexEntry[];
   statIndexes: unknown;
@@ -13,6 +13,19 @@ interface DexEntity {
 }
 type DexEntry = {
   [n: string]: any;
+};
+type MoveCategory = "Physical" | "Special" | "Status";
+type MoveEntity = {
+  name: string;
+  type: PokemonType;
+  category: MoveCategory;
+  power?: number;
+  accuracy: string;
+  changes: string;
+  flags: string;
+  effect: string;
+  pp: number;
+  pokemons: number[];
 };
 
 type Pokemon = PokemonStats & {
