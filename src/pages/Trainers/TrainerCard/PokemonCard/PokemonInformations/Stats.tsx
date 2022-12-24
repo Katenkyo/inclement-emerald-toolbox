@@ -27,7 +27,7 @@ export const statValueParser = (v?: string | number): PokemonStats => {
           spe,
         };
       }
-      // Handles "general spred, specific one"
+      // Handles "general spread, specific one"
       replaced.split(",").forEach((part) => {
         part = part.trimStart();
         // Handles "All x" spreads
