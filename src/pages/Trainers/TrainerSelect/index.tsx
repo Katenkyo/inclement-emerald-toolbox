@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { FormControl, Select, FormLabel } from "@mui/material";
 import { createSearchParams, useLocation, useNavigate } from "react-router-dom";
 import { MenuItem } from "@mui/material";
 import trainers from "@assets/trainers.json";
+import { AttemptContext } from "@common/AttemptContext";
 export type TrainerEntity = typeof trainers[number][number];
 
 export const TRAINER_PARAM = "trainer_category";
@@ -36,6 +37,7 @@ const TrainerSelect = () => {
   const navigate = useNavigate();
   const param = new URLSearchParams(location.search).get(TRAINER_PARAM);
   const selected = parseInt(param ?? "0");
+  const { startingType } = useContext(AttemptContext);
 
   const handleChange = (value: number | string, replace?: boolean) => {
     navigate(`?${createSearchParams({ [TRAINER_PARAM]: `${value}` })}`, {
@@ -56,7 +58,16 @@ const TrainerSelect = () => {
         size="small"
       >
         {categories.map((val, index) => (
-          <MenuItem key={val} value={index}>
+          <MenuItem
+            key={val}
+            value={index}
+            disabled={
+              !val
+                .toLocaleLowerCase()
+                .includes(startingType.toLocaleLowerCase()) &&
+              val.toLocaleLowerCase().includes("rival")
+            }
+          >
             {val}
           </MenuItem>
         ))}

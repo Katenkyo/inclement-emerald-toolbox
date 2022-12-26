@@ -12,20 +12,25 @@ type AttemptControls = {
 };
 type AttemptContextType = Attempt & {
   controls: AttemptControls;
+  attemptNo: number;
 };
 // Using these as defaults as it looks like that's what I'll be going for
 // Don't wanna deal with that ES Arcanine,
-const defaultValue: AttemptContextType = {
+const defaultAttempt: Attempt = {
   pokemons: [],
   startingType: "fire",
   gender: "male",
+};
+const defaultValue: AttemptContextType = {
+  ...defaultAttempt,
+  attemptNo: 0,
   controls: {
     setGender: () => {},
     setStartingType: () => {},
     startNewAttempt: () => {},
   },
 };
-export const AttempContext = createContext<AttemptContextType>(defaultValue);
+export const AttemptContext = createContext<AttemptContextType>(defaultValue);
 
 /**
  * Storage
@@ -66,7 +71,9 @@ const getStartingTypeControl =
       return modified;
     });
 const getNewAttemptControl =
-  (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) => () => {};
+  (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) => () => {
+    dispatch((attempts) => [...attempts, defaultAttempt]);
+  };
 
 const getControls = (
   dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>
@@ -84,14 +91,17 @@ const AttempContextProvider = (props: PropsWithChildren<{}>) => {
 
   const currentAttempt = attempts[attempts.length - 1];
   return (
-    <AttempContext.Provider
+    <AttemptContext.Provider
       value={
-        { ...currentAttempt, controls: getControls(setAttempts) } ??
-        defaultValue
+        {
+          ...currentAttempt,
+          controls: getControls(setAttempts),
+          attemptNo: attempts.length,
+        } ?? defaultValue
       }
     >
       {props.children}
-    </AttempContext.Provider>
+    </AttemptContext.Provider>
   );
 };
 

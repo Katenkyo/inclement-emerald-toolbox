@@ -14,7 +14,7 @@ import {
   ToggleButtonGroup,
 } from "@mui/material";
 import { blue, pink, green, red } from "@mui/material/colors";
-import { AttempContext } from "@common/AttemptContext";
+import { AttemptContext } from "@common/AttemptContext";
 
 const MaleToggle = styled(ToggleButton)(({ theme }) => ({
   color: blue["A400"],
@@ -48,9 +48,9 @@ const WaterToggle = styled(ToggleButton)(({ theme }) => ({
 }));
 
 const Controls = () => {
-  const { controls, ...attempt } = useContext(AttempContext);
+  const { controls, ...attempt } = useContext(AttemptContext);
   return (
-    <Box sx={{ display: "flex", flexDirection: "row" }}>
+    <Box sx={{ display: "flex", flexDirection: "row", "& > *": { mx: 0.5 } }}>
       <ToggleButtonGroup
         size="small"
         exclusive
@@ -84,7 +84,7 @@ const Controls = () => {
           <WhatshotIcon />
         </WaterToggle>
       </ToggleButtonGroup>
-      <IconButton>
+      <IconButton onClick={() => controls.startNewAttempt()}>
         <RestartAltIcon />
       </IconButton>
     </Box>
