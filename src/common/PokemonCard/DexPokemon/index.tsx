@@ -16,7 +16,6 @@ const AbilityNode = ({ name }: { name?: string }) => {
     (a) => a.name.toLocaleLowerCase() === name?.toLocaleLowerCase()
   );
   if (ability === undefined) return <>{name ?? ""}</>;
-  // return <>{`${ability.name} (${ability.effect.replace("&apos;", "'")})`}</>;
   return (
     <>
       {`${ability.name} `}

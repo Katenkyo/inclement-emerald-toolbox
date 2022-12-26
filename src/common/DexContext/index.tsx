@@ -27,7 +27,11 @@ const getForms = (id: Pokemon["id"]) =>
     (index) => pokemons[index]
   ) ?? [];
 const getNextForm = (id: Pokemon["id"]) => {
-  let forms = getForms(id);
+  let forms = getForms(id).reduce(
+    (acc: Pokemon[], val) =>
+      acc.find((v) => v.id === val.id) ? acc : [...acc, val],
+    []
+  );
   let index = forms.findIndex((p) => p.id === id) + 1;
   if (index <= 0 || index >= forms.length) return undefined;
   return forms[index];
