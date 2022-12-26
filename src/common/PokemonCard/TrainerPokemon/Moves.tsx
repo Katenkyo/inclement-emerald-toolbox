@@ -9,13 +9,8 @@ import {
   List,
   ListItem,
 } from "@mui/material";
+import { TypeImage } from "../components/image";
 
-const StyledImg = styled("img")({
-  height: "14px",
-  width: "32px",
-  alignSelf: "center",
-  margin: "0px 4px",
-});
 const StyledCard = styled(Card)({
   display: "flex",
   flexDirection: "row",
@@ -35,9 +30,7 @@ const MoveCard = ({ move }: { move: MoveEntity }) => {
       }
     >
       <StyledCard ref={ref}>
-        <StyledImg
-          src={`https://veekun.com/dex/media/types/en/${move.type.toLocaleLowerCase()}.png`}
-        />
+        <TypeImage name={move.type} />
         <Typography variant="caption">{move.name}</Typography>
       </StyledCard>
     </Tooltip>

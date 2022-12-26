@@ -11,7 +11,7 @@ import {
 import { Card } from "@mui/material";
 import React from "react";
 import { TrainerEntity } from "../TrainerSelect";
-import PokemonCard from "@common/PokemonCard";
+import { TrainerPokemonCard } from "@common/PokemonCard";
 
 const StyledBoy = styled(Boy)({ "&:last-of-type": { marginLeft: "-12px" } });
 const ElevatedPaper = styled((props: PaperProps) => (
@@ -37,7 +37,7 @@ const TrainerCard = ({
         padding: 1,
       }}
       component={selected ? Paper : Button}
-      onClick={() => onSelect(!selected)}
+      onClick={() => (selected ? undefined : onSelect(!selected))}
     >
       <Grid container direction="row" justifyContent="space-between">
         <Box sx={{ display: "flex", direction: "row" }}>
@@ -65,7 +65,7 @@ const TrainerCard = ({
         width="100%"
       >
         {team.map((pokemon, index) => (
-          <PokemonCard
+          <TrainerPokemonCard
             key={pokemon?.name ?? index}
             pokemon={pokemon}
             expanded={selected}
