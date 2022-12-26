@@ -37,20 +37,23 @@ const TrainerSelect = () => {
   const param = new URLSearchParams(location.search).get(TRAINER_PARAM);
   const selected = parseInt(param ?? "0");
 
-  const handleChange = (value: number | string) => {
-    navigate(`?${createSearchParams({ [TRAINER_PARAM]: `${value}` })}`);
+  const handleChange = (value: number | string, replace?: boolean) => {
+    navigate(`?${createSearchParams({ [TRAINER_PARAM]: `${value}` })}`, {
+      replace,
+    });
   };
   useEffect(() => {
-    if (param === null) handleChange(0);
+    if (param === null) handleChange(0, true);
   }, [param]);
   return (
-    <FormControl sx={{ width: "30ch" }}>
+    <FormControl sx={{ width: "30ch" }} size="small">
       <FormLabel title="Trainer Category" />
       <Select
         value={selected}
         onChange={(evt) => {
           handleChange(evt.target.value);
         }}
+        size="small"
       >
         {categories.map((val, index) => (
           <MenuItem key={val} value={index}>

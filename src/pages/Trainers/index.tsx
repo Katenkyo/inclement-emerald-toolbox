@@ -11,27 +11,23 @@ const Home = () => {
     setSelectedTrainer(undefined);
   }, [selected]);
   return (
-    <>
-      {title}
-      <br />
-      <Grid
-        display="grid"
-        gridTemplateColumns="repeat(4, 1fr)"
-        gap={2}
-        padding={2}
-      >
-        {trainers.map((trainer, index) => (
-          <TrainerCard
-            key={`${title}${index}`}
-            trainer={trainer}
-            selected={index === selectedTrainer}
-            onSelect={(selected) =>
-              setSelectedTrainer(index === selectedTrainer ? undefined : index)
-            }
-          />
-        ))}
-      </Grid>
-    </>
+    <Grid
+      display="grid"
+      gridTemplateColumns="repeat(4, 1fr)"
+      gap={2}
+      padding={2}
+    >
+      {trainers.map((trainer, index) => (
+        <TrainerCard
+          key={`${title}${index}`}
+          trainer={trainer}
+          selected={index === selectedTrainer}
+          onSelect={() =>
+            setSelectedTrainer(index === selectedTrainer ? undefined : index)
+          }
+        />
+      ))}
+    </Grid>
   );
 };
 

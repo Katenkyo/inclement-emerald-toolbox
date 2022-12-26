@@ -11,12 +11,12 @@ import {
 import { Card } from "@mui/material";
 import React from "react";
 import { TrainerEntity } from "../TrainerSelect";
-import PokemonCard from "./PokemonCard";
+import PokemonCard from "@common/PokemonCard";
 
 const StyledBoy = styled(Boy)({ "&:last-of-type": { marginLeft: "-12px" } });
 const ElevatedPaper = styled((props: PaperProps) => (
   <Paper elevation={2} {...props} />
-))();
+))({});
 
 const TrainerCard = ({
   trainer,

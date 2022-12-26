@@ -8,18 +8,18 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { TrainerEntity } from "../../TrainerSelect";
+import { TrainerEntity } from "../../pages/Trainers/TrainerSelect";
 import { DexContext } from "@common/DexContext";
 import PokemonStats, { statValueParser } from "./PokemonInformations/Stats";
 import PokemonMoves from "./PokemonInformations/Moves";
 
 const ElevatedPaper = styled((props: PaperProps) => (
   <Paper elevation={3} {...props} />
-))();
+))({});
 
 const StyledImg = styled("img")({ height: "96px", width: "96px" });
 
-const TrainerCard = ({
+const PokemonCard = ({
   pokemon,
   expanded = false,
 }: {
@@ -52,6 +52,7 @@ const TrainerCard = ({
               (t) =>
                 t && (
                   <img
+                    key={t}
                     src={`https://veekun.com/dex/media/types/en/${t.toLocaleLowerCase()}.png`}
                   />
                 )
@@ -82,4 +83,4 @@ const TrainerCard = ({
   );
 };
 
-export default TrainerCard;
+export default PokemonCard;

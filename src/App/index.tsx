@@ -4,12 +4,15 @@ import { dark } from "./theming";
 import AppRouter from "./Router";
 import AppBar from "./AppBar";
 import DexContextProvider from "@common/DexContext";
+import SearchContextProvider from "@common/PokedexLookup/context";
+import SearchResults from "@common/PokedexLookup/SearchResults";
 
 const App = () => {
   return (
     <>
       <AppRouter>
         <AppBar />
+        <SearchResults />
       </AppRouter>
     </>
   );
@@ -18,8 +21,10 @@ const App = () => {
 const IncludeTheming = () => (
   <ThemeProvider theme={dark}>
     <DexContextProvider>
-      <CssBaseline />
-      <App />
+      <SearchContextProvider>
+        <CssBaseline />
+        <App />
+      </SearchContextProvider>
     </DexContextProvider>
   </ThemeProvider>
 );

@@ -106,20 +106,21 @@ const natureColor =
     if (nature.plus === stat) return theme.palette.error.main;
     return theme.palette.text.primary;
   };
-const StatGauge = ({
-  base,
-  iv,
-  ev,
-  label,
-  nature,
-}: {
-  base: number;
+
+type StatGaugeOfInstanceProps = StatGaugeProps & {
   iv: number;
   ev: number;
-  label: keyof PokemonStats;
   nature: NatureName;
-}) => {
-  const statChange = NATURES[nature];
+};
+type StatGaugeProps = { base: number; label: keyof PokemonStats };
+const isStatGaugeOfInstance = (
+  x: StatGaugeOfInstanceProps | StatGaugeProps
+): x is StatGaugeOfInstanceProps =>
+  (x as StatGaugeOfInstanceProps).ev !== undefined;
+const StatGauge = (props: StatGaugeProps | StatGaugeOfInstanceProps) => {
+  const { base, label } = props;
+  const isInstance = isStatGaugeOfInstance(props);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "row" }}>
       <Typography variant="caption" sx={{ width: "3ch" }}>
@@ -150,10 +151,12 @@ const StatGauge = ({
           {base}
         </Typography>
       </Box>
-      <Typography
-        variant="caption"
-        sx={{ color: natureColor(label, statChange) }}
-      >{`${("" + iv).padStart(2, "0")}|${ev}`}</Typography>
+      {isInstance && (
+        <Typography
+          variant="caption"
+          sx={{ color: natureColor(label, NATURES[props.nature]) }}
+        >{`${("" + props.iv).padStart(2, "0")}|${props.ev}`}</Typography>
+      )}
     </Box>
   );
 };
