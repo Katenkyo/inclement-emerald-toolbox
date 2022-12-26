@@ -30,7 +30,7 @@ module.exports = {
     },
     watchFiles: ["src/**/*"],
     compress: true,
-    port: 3000,
+    port: 9000,
     hot: true,
     historyApiFallback: { index: "/", disableDotRule: true },
     client: {

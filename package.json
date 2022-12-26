@@ -4,7 +4,7 @@
   "description": "Trying to have a good display for all infos of pokemon inclement emerald. And some fun too",
   "main": "index.js",
   "scripts": {
-    "docker:create": "docker run --name pokemonContainer -dp 3000:3000 -v $(pwd):/code node:18.7.0 sleep infinity",
+    "docker:create": "docker run --name pokemonContainer -dp 9000:9000 -v $(pwd):/code node:18.7.0 sleep infinity",
     "docker:start": "docker start pokemonContainer",
     "docker:ssh": "docker exec -it pokemonContainer /bin/bash",
     "start": "webpack serve"

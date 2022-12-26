@@ -6,6 +6,7 @@ import AppBar from "./AppBar";
 import DexContextProvider from "@common/DexContext";
 import SearchContextProvider from "@common/PokedexLookup/context";
 import SearchResults from "@common/PokedexLookup/SearchResults";
+import AttemptContextProvider from "@common/AttemptContext";
 
 const App = () => {
   return (
@@ -22,8 +23,10 @@ const IncludeTheming = () => (
   <ThemeProvider theme={dark}>
     <DexContextProvider>
       <SearchContextProvider>
-        <CssBaseline />
-        <App />
+        <AttemptContextProvider>
+          <CssBaseline />
+          <App />
+        </AttemptContextProvider>
       </SearchContextProvider>
     </DexContextProvider>
   </ThemeProvider>

@@ -3,6 +3,7 @@ import { AppBar, Typography, Box, Grid } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import TrainerSelect from "@pages/Trainers/TrainerSelect";
 import PokedexLookup from "@common/PokedexLookup";
+import ProgressionControls from "@pages/Progression/Controls";
 
 const ActualBar = () => {
   const { pathname } = useLocation();
@@ -23,11 +24,28 @@ const ActualBar = () => {
           </Typography>
           <PokedexLookup />
         </Box>
-        {pathname.startsWith("/trainers") ? (
-          <TrainerSelect />
-        ) : (
-          <Link to="/trainers">Trainers</Link>
-        )}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            "& > *": {
+              mx: 0.5,
+            },
+          }}
+        >
+          {pathname.startsWith("/trainers") ? (
+            <TrainerSelect />
+          ) : (
+            <Link to="/trainers">Trainers</Link>
+          )}
+          {pathname.startsWith("/progression") ? (
+            <ProgressionControls />
+          ) : (
+            <Link to="/progression">Progression</Link>
+          )}
+        </Box>
       </Grid>
     </AppBar>
   );
