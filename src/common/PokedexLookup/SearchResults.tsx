@@ -1,5 +1,6 @@
 import { DexContext } from "@common/DexContext";
-import { Backdrop, Paper, Typography } from "@mui/material";
+import { DexPokemonCard } from "@common/PokemonCard";
+import { Backdrop, List, ListItem, Paper, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import { SearchContext } from "./context";
 
@@ -14,13 +15,22 @@ const ResultList = () => {
         )
       : [];
 
-  // <PokemonCard key={p.name} pokemon={p}/>
   return (
-    <>
+    <List>
       {results.map((p) => (
-        <Typography>{p.name}</Typography>
+        <ListItem
+          key={p.name}
+          sx={(theme) => ({
+            "&:nth-of-type(2n)": {
+              backgroundColor: `${theme.palette.background.default}50`,
+            },
+            overflowX: "scroll",
+          })}
+        >
+          <DexPokemonCard pokemon={p} />
+        </ListItem>
       ))}
-    </>
+    </List>
   );
 };
 

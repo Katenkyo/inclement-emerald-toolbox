@@ -40,9 +40,9 @@ type Pokemon = PokemonStats & {
   obtainable: boolean;
   type1: PokemonType;
   total: number;
-  ability1: unknown;
+  ability1: string;
   changes: string;
-  hiddenAbility: unknown;
+  hiddenAbility: string;
   type2: PokemonType;
   group1: string;
   group2: string;
@@ -55,7 +55,7 @@ type Pokemon = PokemonStats & {
     tutorMoves: number[];
   };
   progression: number;
-  ability2: unknown;
+  ability2: string;
 };
 
 type PokemonStats = {

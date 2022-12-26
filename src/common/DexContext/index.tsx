@@ -5,13 +5,10 @@ type DexContextType = {
   pokedex: Pokemon[];
   moveDex: MoveEntity[];
   abilityDex: AbilityEntity[];
+  getForms: (id: Pokemon["id"]) => Pokemon[];
+  getNextForm: typeof getNextForm;
 };
 
-export const DexContext = createContext<DexContextType>({
-  pokedex: [],
-  moveDex: [],
-  abilityDex: [],
-});
 const getPokemonFromDexEntryBuilder =
   (fieldList: DexEntity["fieldList"]) =>
   (entry: DexEntry): Pokemon => {
@@ -25,6 +22,23 @@ const buildPokemons = () => {
   return pokedex.pokemons.map(getPokemonFromDexEntryBuilder(pokedex.fieldList));
 };
 const pokemons = buildPokemons();
+const getForms = (id: Pokemon["id"]) =>
+  (pokemons.find((p) => p.id === id)?.forms ?? []).map(
+    (index) => pokemons[index]
+  ) ?? [];
+const getNextForm = (id: Pokemon["id"]) => {
+  let forms = getForms(id);
+  let index = forms.findIndex((p) => p.id === id) + 1;
+  if (index <= 0 || index >= forms.length) return undefined;
+  return forms[index];
+};
+export const DexContext = createContext<DexContextType>({
+  pokedex: pokemons,
+  moveDex: pokedex.moves,
+  abilityDex: pokedex.abilities,
+  getForms,
+  getNextForm,
+});
 
 const DexContextProvider = (props: PropsWithChildren<{}>) => {
   return (
@@ -33,6 +47,8 @@ const DexContextProvider = (props: PropsWithChildren<{}>) => {
         pokedex: pokemons,
         moveDex: pokedex.moves,
         abilityDex: pokedex.abilities,
+        getForms,
+        getNextForm,
       }}
     >
       {props.children}
