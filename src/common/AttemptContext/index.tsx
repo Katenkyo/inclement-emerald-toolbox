@@ -88,8 +88,10 @@ const getAddEnconterControl =
         i !== attempts.length - 1 ? a : { ...a, pokemons: [...a.pokemons, p] }
       );
       const isStarter = p.captureLocationName.toLocaleLowerCase() === "starter";
-      modified[modified.length - 1].startingType =
-        p.dexEntry.type1.toLocaleLowerCase() as PokemonType;
+      if (isStarter) {
+        modified[modified.length - 1].startingType =
+          p.dexEntry.type1.toLocaleLowerCase() as PokemonType;
+      }
       saveAttempts(modified);
       return [...modified];
     });
