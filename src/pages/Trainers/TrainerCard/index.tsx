@@ -42,7 +42,9 @@ const TrainerCard = ({
       <Grid container direction="row" justifyContent="space-between">
         <Box sx={{ display: "flex", direction: "row" }}>
           <Typography variant="h5">{trainer.trainer}</Typography>
-          <Typography variant="h6">{trainer.level}</Typography>
+          <Typography variant="h6" color="text.disabled">
+            {trainer.level}
+          </Typography>
         </Box>
         <Box sx={{ display: "flex", direction: "row" }}>
           {trainer.format?.includes("Double") ? (

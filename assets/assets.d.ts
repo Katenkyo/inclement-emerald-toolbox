@@ -118,3 +118,9 @@ type NatureName =
   | "Sassy"
   | "Serious"
   | "Timid";
+
+type RouteEntity = {
+  type: string;
+  name: string;
+  encounters: string[];
+};

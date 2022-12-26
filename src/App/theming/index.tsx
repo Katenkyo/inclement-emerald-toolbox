@@ -6,6 +6,35 @@ export const dark = createTheme({
     borderRadius: 12,
   },
   components: {
+    MuiSelect: {
+      defaultProps: {
+        size: "small",
+      },
+    },
+    MuiFormControl: {
+      defaultProps: {
+        size: "small",
+      },
+      styleOverrides: {
+        root: ({ theme }) => ({
+          "& input": {
+            borderRadius: theme.shape.borderRadius,
+          },
+          "& .Mui-disabled": {
+            backgroundColor: theme.palette.grey["900"],
+            "& > fieldset.MuiOutlinedInput-notchedOutline": {
+              borderColor: "transparent",
+              backgroundColor: "transparent",
+            },
+          },
+        }),
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        size: "small",
+      },
+    },
     MuiCssBaseline: {
       styleOverrides: `
       a {

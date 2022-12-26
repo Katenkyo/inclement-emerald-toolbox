@@ -9,6 +9,7 @@ type AttemptControls = {
   setGender: (g: Attempt["gender"]) => void;
   setStartingType: (t: Attempt["startingType"]) => void;
   startNewAttempt: () => void;
+  addEnconter: (p: PlayerPokemonInstance) => void;
 };
 type AttemptContextType = Attempt & {
   controls: AttemptControls;
@@ -28,6 +29,7 @@ const defaultValue: AttemptContextType = {
     setGender: () => {},
     setStartingType: () => {},
     startNewAttempt: () => {},
+    addEnconter: () => {},
   },
 };
 export const AttemptContext = createContext<AttemptContextType>(defaultValue);
@@ -72,8 +74,25 @@ const getStartingTypeControl =
     });
 const getNewAttemptControl =
   (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) => () => {
-    dispatch((attempts) => [...attempts, defaultAttempt]);
+    dispatch((attempts) => {
+      const modified = [...attempts, defaultAttempt];
+      saveAttempts(modified);
+      return modified;
+    });
   };
+const getAddEnconterControl =
+  (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) =>
+  (p: PlayerPokemonInstance) =>
+    dispatch((attempts) => {
+      const modified = attempts.map((a, i) =>
+        i !== attempts.length - 1 ? a : { ...a, pokemons: [...a.pokemons, p] }
+      );
+      const isStarter = p.captureLocationName.toLocaleLowerCase() === "starter";
+      modified[modified.length - 1].startingType =
+        p.dexEntry.type1.toLocaleLowerCase() as PokemonType;
+      saveAttempts(modified);
+      return [...modified];
+    });
 
 const getControls = (
   dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>
@@ -81,6 +100,7 @@ const getControls = (
   setGender: getGenderControl(dispatch),
   setStartingType: getStartingTypeControl(dispatch),
   startNewAttempt: getNewAttemptControl(dispatch),
+  addEnconter: getAddEnconterControl(dispatch),
 });
 
 const AttempContextProvider = (props: PropsWithChildren<{}>) => {

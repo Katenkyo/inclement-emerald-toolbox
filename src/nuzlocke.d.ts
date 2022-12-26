@@ -6,6 +6,7 @@ type Attempt = {
 type PlayerPokemonInstance = {
   id: number;
   nickname: string;
+  ability: string;
   captureLocationName: string;
   dexEntry: Pokemon;
   nature: NatureName;

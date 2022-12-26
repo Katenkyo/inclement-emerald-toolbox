@@ -785,10 +785,6 @@
   },
   {
     "type": "route",
-    "name": "Safari Zone"
-  },
-  {
-    "type": "route",
     "name": "Route 122",
     "encounters": [
       "pelipper",
