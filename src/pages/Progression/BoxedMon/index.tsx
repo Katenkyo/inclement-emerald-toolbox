@@ -7,17 +7,28 @@ import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import BarChart from "@mui/icons-material/BarChart";
 import Vaccines from "@mui/icons-material/Vaccines";
 import FormsButton from "./components/FormsButton";
+import KillButton from "./components/KillButon";
+import StatsButton from "./components/StatsButton";
 
 const BoxedCard = ({ pokemon }: { pokemon: PlayerPokemonInstance }) => {
   const [expanded, setExpanded] = useState<boolean>(false);
   return (
     <Card
-      sx={{
-        display: "flex",
-        flexDirection: "row",
-        padding: 0.5,
-        textTransform: "none",
-      }}
+      sx={[
+        {
+          display: "flex",
+          flexDirection: "row",
+          padding: 0.5,
+          textTransform: "none",
+        },
+        (theme) =>
+          pokemon.isDead
+            ? {
+                backgroundColor: theme.palette.error.dark,
+                opacity: 0.95,
+              }
+            : {},
+      ]}
       component={expanded ? Paper : Button}
       onClick={() => (expanded ? undefined : setExpanded(true))}
     >
@@ -40,12 +51,8 @@ const BoxedCard = ({ pokemon }: { pokemon: PlayerPokemonInstance }) => {
             sx={{ maxHeight: "100%" }}
           >
             <FormsButton pokemon={pokemon} />
-            <IconButton>
-              <BarChart />
-            </IconButton>
-            <IconButton>
-              <Vaccines />
-            </IconButton>
+            <StatsButton pokemon={pokemon} />
+            <KillButton pokemon={pokemon} />
           </Grid>
         </>
       )}

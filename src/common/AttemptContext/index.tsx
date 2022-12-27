@@ -11,6 +11,8 @@ type AttemptControls = {
   startNewAttempt: () => void;
   addEnconter: (p: PlayerPokemonInstance) => void;
   evolve: (capturedAs: Pokemon, newForm: Pokemon) => void;
+  kill: (p: PlayerPokemonInstance) => void;
+  update: (p: PlayerPokemonInstance) => void;
 };
 type AttemptContextType = Attempt & {
   controls: AttemptControls;
@@ -32,6 +34,8 @@ const defaultValue: AttemptContextType = {
     startNewAttempt: () => {},
     addEnconter: () => {},
     evolve: () => {},
+    kill: () => {},
+    update: () => {},
   },
 };
 export const AttemptContext = createContext<AttemptContextType>(defaultValue);
@@ -50,6 +54,7 @@ const saveAttempts = (x: Attempt[]) => {
 };
 /**
  * Controls builders
+ * @TODO Stop being so lazy and properly refacto these. Way too much copy/pasta
  */
 
 const getGenderControl =
@@ -113,6 +118,37 @@ const getEvolutionControl =
       saveAttempts(modified);
       return [...modified];
     });
+const getKillControl =
+  (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) =>
+  (pokemon: PlayerPokemonInstance) =>
+    dispatch((attempts) => {
+      const modified = attempts.map((a, i) => {
+        if (i !== attempts.length - 1) return a;
+        return {
+          ...a,
+          pokemons: a.pokemons.map((p) =>
+            p.id !== pokemon.id ? p : { ...p, isDead: !(p.isDead ?? false) }
+          ),
+        };
+      });
+      saveAttempts(modified);
+      return [...modified];
+    });
+
+const getUpdateControl =
+  (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) =>
+  (pokemon: PlayerPokemonInstance) =>
+    dispatch((attempts) => {
+      const modified = attempts.map((a, i) => {
+        if (i !== attempts.length - 1) return a;
+        return {
+          ...a,
+          pokemons: a.pokemons.map((p) => (p.id !== pokemon.id ? p : pokemon)),
+        };
+      });
+      saveAttempts(modified);
+      return [...modified];
+    });
 
 const getControls = (
   dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>
@@ -122,6 +158,8 @@ const getControls = (
   startNewAttempt: getNewAttemptControl(dispatch),
   addEnconter: getAddEnconterControl(dispatch),
   evolve: getEvolutionControl(dispatch),
+  kill: getKillControl(dispatch),
+  update: getUpdateControl(dispatch),
 });
 
 const AttempContextProvider = (props: PropsWithChildren<{}>) => {

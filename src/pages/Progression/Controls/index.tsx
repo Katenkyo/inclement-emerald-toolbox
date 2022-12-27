@@ -9,7 +9,6 @@ import {
   Box,
   IconButton,
   styled,
-  Switch,
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
