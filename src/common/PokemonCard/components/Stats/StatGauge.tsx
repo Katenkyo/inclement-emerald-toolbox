@@ -1,4 +1,4 @@
-import { Box, Theme, Typography } from "@mui/material";
+import { Box, styled, TextField, Theme, Typography } from "@mui/material";
 import React from "react";
 import { natureColor, NATURES } from "./consts";
 
@@ -18,12 +18,28 @@ type StatGaugeOfInstanceProps = StatGaugeProps & {
   iv: number;
   ev: number;
   nature: NatureName;
+  onEdit?: (
+    ivOrEv: keyof Pick<PlayerPokemonInstance, "ivs" | "evs">,
+    value: number
+  ) => void;
 };
 type StatGaugeProps = { base: number; label: keyof PokemonStats };
 const isStatGaugeOfInstance = (
   x: StatGaugeOfInstanceProps | StatGaugeProps
 ): x is StatGaugeOfInstanceProps =>
   (x as StatGaugeOfInstanceProps).ev !== undefined;
+const Field = styled(TextField)(({ theme }) => ({
+  width: "6ch",
+  "&  input": { padding: 0, paddingLeft: "12px" },
+  "& > .MuiInputBase-root": {
+    "&.Mui-disabled": {
+      backgroundColor: theme.palette.grey["900"],
+    },
+    "& > .MuiInputBase-input.Mui-disabled": {
+      "-webkit-text-fill-color": "inherit",
+    },
+  },
+}));
 const StatGauge = (props: StatGaugeProps | StatGaugeOfInstanceProps) => {
   const { base, label } = props;
   const isInstance = isStatGaugeOfInstance(props);
@@ -54,11 +70,41 @@ const StatGauge = (props: StatGaugeProps | StatGaugeOfInstanceProps) => {
           {`${label.padEnd(4, " ")}${base}`}
         </Typography>
       </Box>
-      {isInstance && (
+      {/* {isInstance && (
         <Typography
           variant="caption"
           sx={{ color: natureColor(label, NATURES[props.nature]) }}
         >{`${("" + props.iv).padStart(2, "0")}|${props.ev}`}</Typography>
+      )} */}
+      {isInstance && (
+        <>
+          {[
+            { key: "ivs", value: props.iv },
+            { key: "evs", value: props.ev },
+          ].map(({ key, value }) => (
+            <Field
+              key={key}
+              variant="filled"
+              hiddenLabel
+              disabled={props.onEdit === undefined}
+              defaultValue={value}
+              onBlur={(evt) =>
+                (props.onEdit ?? (() => {}))(
+                  key as "ivs" | "evs",
+                  parseInt(evt.target.value)
+                )
+              }
+              sx={{
+                "& > .MuiInputBase-root": {
+                  color: natureColor(label, NATURES[props.nature]),
+                  "& > .MuiInputBase-input.Mui-disabled": {
+                    color: natureColor(label, NATURES[props.nature]),
+                  },
+                },
+              }}
+            />
+          ))}
+        </>
       )}
     </Box>
   );

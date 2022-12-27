@@ -76,6 +76,12 @@ const StatsButton = ({ pokemon }: { pokemon: PlayerPokemonInstance }) => {
             ivs={pokemon.ivs}
             evs={pokemon.evs}
             nature={pokemon.nature}
+            onEdit={(key, stat, value) =>
+              controls.update({
+                ...pokemon,
+                [key]: { ...pokemon[key], [stat]: value },
+              })
+            }
           />
         </Grid>
       </Popover>

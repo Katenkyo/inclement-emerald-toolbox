@@ -14,6 +14,11 @@ type StatOfInstanceProps = {
   ivs: PokemonStats;
   evs: PokemonStats;
   nature: NatureName;
+  onEdit?: (
+    ivOrEv: keyof Pick<PlayerPokemonInstance, "ivs" | "evs">,
+    stat: keyof PokemonStats,
+    value: number
+  ) => void;
 };
 type StatsWithoutInstanceProps = { pokemon: Pokemon };
 type StatsWithInstanceProps = StatsWithoutInstanceProps & StatOfInstanceProps;
@@ -36,6 +41,12 @@ const Stats = (props: StatsWithInstanceProps | StatsWithoutInstanceProps) => {
             iv={isInstance ? props.ivs[k] : undefined}
             ev={isInstance ? props.evs[k] : undefined}
             nature={isInstance ? props.nature : undefined}
+            onEdit={
+              isInstance && props.onEdit !== undefined
+                ? (ivOrEv, value) =>
+                    (props.onEdit ?? (() => {}))(ivOrEv, k, value)
+                : undefined
+            }
           />
         ))}
       </Box>
