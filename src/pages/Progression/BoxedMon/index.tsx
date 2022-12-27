@@ -60,7 +60,7 @@ const BoxedCard = ({ pokemon }: { pokemon: PlayerPokemonInstance }) => {
   );
 };
 const BoxedMon = () => {
-  const { pokemons, controls } = useContext(AttemptContext);
+  const { pokemons } = useContext(AttemptContext);
 
   return (
     <Grid container direction="row" gap={0.5}>

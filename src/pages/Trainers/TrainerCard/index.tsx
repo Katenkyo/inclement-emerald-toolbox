@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Grid,
+  IconButton,
   Paper,
   PaperProps,
   styled,
@@ -10,8 +11,10 @@ import {
 } from "@mui/material";
 import { Card } from "@mui/material";
 import React from "react";
-import { TrainerEntity } from "../TrainerSelect";
+import { TrainerEntity, useSelectedTrainerCategory } from "../TrainerSelect";
 import { TrainerPokemonCard } from "@common/PokemonCard";
+import DeviceHubIcon from "@mui/icons-material/DeviceHub";
+import { useNavigate } from "react-router-dom";
 
 const StyledBoy = styled(Boy)({ "&:last-of-type": { marginLeft: "-12px" } });
 const ElevatedPaper = styled((props: PaperProps) => (
@@ -22,10 +25,12 @@ const TrainerCard = ({
   trainer,
   selected = false,
   onSelect = () => {},
+  onFight = () => {},
 }: {
   trainer: TrainerEntity;
   selected?: boolean;
   onSelect?: (selected: boolean) => void;
+  onFight?: () => void;
 }) => {
   const team = trainer.team;
   return (
@@ -45,6 +50,11 @@ const TrainerCard = ({
           <Typography variant="h6" color="text.disabled">
             {trainer.level}
           </Typography>
+          {selected && (
+            <IconButton onClick={() => onFight()}>
+              <DeviceHubIcon />
+            </IconButton>
+          )}
         </Box>
         <Box sx={{ display: "flex", direction: "row" }}>
           {trainer.format?.includes("Double") ? (

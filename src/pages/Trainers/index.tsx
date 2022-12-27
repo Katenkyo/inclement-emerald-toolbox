@@ -6,7 +6,8 @@ import TrainerCard from "./TrainerCard";
 import { useSelectedTrainerCategory } from "./TrainerSelect";
 
 const Home = () => {
-  const { title, selected, trainers } = useSelectedTrainerCategory();
+  const { title, selected, trainers, simulateAgainst } =
+    useSelectedTrainerCategory();
   const { gender } = useContext(AttemptContext);
   const [selectedTrainer, setSelectedTrainer] = useState<number | undefined>();
   useEffect(() => {
@@ -34,6 +35,7 @@ const Home = () => {
           onSelect={() =>
             setSelectedTrainer(index === selectedTrainer ? undefined : index)
           }
+          onFight={() => simulateAgainst(index)}
         />
       ))}
     </Grid>

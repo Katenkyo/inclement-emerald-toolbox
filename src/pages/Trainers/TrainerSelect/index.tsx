@@ -7,6 +7,7 @@ import { AttemptContext } from "@common/AttemptContext";
 export type TrainerEntity = typeof trainers[number][number];
 
 export const TRAINER_PARAM = "trainer_category";
+export const TRAINER_ID = "trainer_id";
 export const categories = [
   "Gym leaders",
   "Elite 4 + Champion",
@@ -24,12 +25,28 @@ export const useSelectedTrainerCategory = () => {
   const location = useLocation();
   const param = new URLSearchParams(location.search).get(TRAINER_PARAM);
   const selected = parseInt(param ?? "0");
+  const navigate = useNavigate();
 
   return {
     title: categories[selected],
     selected,
     trainers: trainers[selected],
+    simulateAgainst: (id: number) =>
+      navigate(
+        `/simulator?${createSearchParams({
+          [TRAINER_PARAM]: `${selected}`,
+          [TRAINER_ID]: `${id}`,
+        })}`
+      ),
   };
+};
+export const useSelectedTrainer = () => {
+  const location = useLocation();
+  const categoryParam = new URLSearchParams(location.search).get(TRAINER_PARAM);
+  const category = parseInt(categoryParam ?? "0");
+  const idParam = new URLSearchParams(location.search).get(TRAINER_ID);
+  const id = parseInt(idParam ?? "0");
+  return trainers[category][id];
 };
 
 const TrainerSelect = () => {
