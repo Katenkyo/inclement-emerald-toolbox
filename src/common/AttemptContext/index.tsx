@@ -10,6 +10,7 @@ type AttemptControls = {
   setStartingType: (t: Attempt["startingType"]) => void;
   startNewAttempt: () => void;
   addEnconter: (p: PlayerPokemonInstance) => void;
+  evolve: (capturedAs: Pokemon, newForm: Pokemon) => void;
 };
 type AttemptContextType = Attempt & {
   controls: AttemptControls;
@@ -30,6 +31,7 @@ const defaultValue: AttemptContextType = {
     setStartingType: () => {},
     startNewAttempt: () => {},
     addEnconter: () => {},
+    evolve: () => {},
   },
 };
 export const AttemptContext = createContext<AttemptContextType>(defaultValue);
@@ -95,6 +97,22 @@ const getAddEnconterControl =
       saveAttempts(modified);
       return [...modified];
     });
+const getEvolutionControl =
+  (dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>) =>
+  (capturedAs: Pokemon, newForm: Pokemon) =>
+    dispatch((attempts) => {
+      const modified = attempts.map((a, i) => {
+        if (i !== attempts.length - 1) return a;
+        return {
+          ...a,
+          pokemons: a.pokemons.map((p) =>
+            p.capturedAs.id !== capturedAs.id ? p : { ...p, dexEntry: newForm }
+          ),
+        };
+      });
+      saveAttempts(modified);
+      return [...modified];
+    });
 
 const getControls = (
   dispatch: React.Dispatch<React.SetStateAction<Attempt[]>>
@@ -103,6 +121,7 @@ const getControls = (
   setStartingType: getStartingTypeControl(dispatch),
   startNewAttempt: getNewAttemptControl(dispatch),
   addEnconter: getAddEnconterControl(dispatch),
+  evolve: getEvolutionControl(dispatch),
 });
 
 const AttempContextProvider = (props: PropsWithChildren<{}>) => {

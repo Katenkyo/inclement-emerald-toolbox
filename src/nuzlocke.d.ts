@@ -9,6 +9,7 @@ type PlayerPokemonInstance = {
   ability: string;
   captureLocationName: string;
   dexEntry: Pokemon;
+  capturedAs: Pokemon;
   nature: NatureName;
   evs: PokemonStats;
   ivs: PokemonStats;

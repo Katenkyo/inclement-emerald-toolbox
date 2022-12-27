@@ -45,7 +45,7 @@ const RouteCard = ({ route }: { route: RouteEntity }) => {
   }, [selected]);
   useEffect(() => {
     setSelected(
-      isEncountered ? instance.dexEntry.name.toLocaleLowerCase() : ""
+      isEncountered ? instance.capturedAs.name.toLocaleLowerCase() : ""
     );
   }, [pokemons]);
 
@@ -150,6 +150,7 @@ const RouteCard = ({ route }: { route: RouteEntity }) => {
               id: dexEntry?.id as number,
               ability: ability,
               dexEntry: dexEntry as Pokemon,
+              capturedAs: dexEntry as Pokemon,
               nickname: nick,
               nature: nature as NatureName,
               ivs: statValueParser(31),
